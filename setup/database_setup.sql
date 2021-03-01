@@ -36,7 +36,8 @@ CREATE TABLE ARTWORK (
     aid INT NOT NULL REFERENCES ARTIST(aid),
     year DECIMAL(4),
     size VARCHAR(50) NOT NULL,
-    status CHAR(4) CHECK (status = 'Sale' OR status = 'View')
+    price INT CHECK (price > 0),
+    status CHAR(4) CHECK (status = 'Sale' OR status = 'View' OR status = 'Sold')
 );
 
 /* Setup ARTWORK_KIND table */
@@ -78,7 +79,6 @@ CREATE TABLE ARTIST_TRANSACTION (
 	tid INT PRIMARY,
     aid INT NOT NULL REFERENCES ARTIST(aid),
     title VARCHAR(255) NOT NULL UNIQUE REFERENCES ARTWORK(title),
-    price INT NOT NULL,
     INDEX (title)
 );
 
