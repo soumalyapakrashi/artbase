@@ -37,6 +37,7 @@ CREATE TABLE ARTWORK (
     year DECIMAL(4),
     size VARCHAR(50) NOT NULL,
     price INT CHECK (price > 0),
+    picture VARCHAR(200) NOT NULL,
     status CHAR(4) CHECK (status = 'Sale' OR status = 'View' OR status = 'Sold')
 );
 
