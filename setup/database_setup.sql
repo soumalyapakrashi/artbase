@@ -6,13 +6,14 @@ USE artbase;
 
 /* Setup the ARTIST table */
 CREATE TABLE ARTIST (
-	aid INT PRIMARY,
+	aid INT,
     name VARCHAR(100) NOT NULL,
     birth_place VARCHAR(100) NOT NULL,
     age INT CHECK (age > 0 AND age < 130),
     statement VARCHAR(1000) NOT NULL,
     picture VARCHAR(200),
-    INDEX (name)
+    INDEX (name),
+    PRIMARY KEY (aid)
 );
 
 /* Setup the ARTIST_STYLE table */
@@ -29,14 +30,15 @@ CREATE TABLE ARTIST_SOCIAL (
 
 /* Setup ARTWORK table */
 CREATE TABLE ARTWORK (
-	title VARCHAR(255) PRIMARY,
+	title VARCHAR(255),
     type VARCHAR(100) NOT NULL,
     aid INT NOT NULL REFERENCES ARTIST(aid),
     year DECIMAL(4),
     size VARCHAR(50) NOT NULL,
     price INT CHECK (price > 0),
     picture VARCHAR(200) NOT NULL,
-    status CHAR(4) CHECK (status = 'Sale' OR status = 'View' OR status = 'Sold')
+    status CHAR(4) CHECK (status = 'Sale' OR status = 'View' OR status = 'Sold'),
+    PRIMARY KEY (title)
 );
 
 /* Setup ARTWORK_KIND table */
@@ -48,9 +50,10 @@ CREATE TABLE ARTWORK_KIND (
 
 /* Setup CUSTOMER table */
 CREATE TABLE CUSTOMER (
-	cid INT PRIMARY,
+	cid INT,
     name VARCHAR(100) NOT NULL,
-    address VARCHAR(255)
+    address VARCHAR(255),
+    PRIMARY KEY (cid)
 );
 
 /* Setup CUSTOMER_ARTIST table */
@@ -67,22 +70,25 @@ CREATE TABLE CUSTOMER_KIND (
 
 /* Setup CUSTOMER_TRANSACTION table */
 CREATE TABLE CUSTOMER_TRANSACTION (
-	tid INT PRIMARY,
+	tid INT,
     cid INT NOT NULL REFERENCES CUSTOMER(cid),
     title VARCHAR(255) NOT NULL UNIQUE REFERENCES ARTWORK(title),
-    purchase_price INT NOT NULL
+    purchase_price INT NOT NULL,
+    PRIMARY KEY (tid)
 );
 
 /* Setup ARTIST_TRANSACTION table */
 CREATE TABLE ARTIST_TRANSACTION (
-	tid INT PRIMARY,
+	tid INT,
     aid INT NOT NULL REFERENCES ARTIST(aid),
-    title VARCHAR(255) NOT NULL UNIQUE REFERENCES ARTWORK(title)
+    title VARCHAR(255) NOT NULL UNIQUE REFERENCES ARTWORK(title),
+    PRIMARY KEY (tid)
 );
 
 /* Setup ACCOUNT table */
 CREATE TABLE ACCOUNT (
 	id INT NOT NULL UNIQUE,
-    email VARCHAR(255) PRIMARY,
-    password VARCHAR(255) NOT NULL
+    email VARCHAR(255),
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (email)
 );
