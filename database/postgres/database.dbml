@@ -1,0 +1,107 @@
+// country, state, city is mandatory only if customer is buying an artwork.
+// Address fields will be filled accordingly based on whether customer is residing in personal
+// house, or flat (or society). Addresses not mandatory unless customer is buying an artwork.
+Table artbase.customer {
+  id int [primary key, increment]
+  name varchar [not null]
+  country varchar
+  state varchar
+  city varchar
+  home_address varchar [note: 'House number, street name, etc.']
+  apartment_name varchar
+  flat_number varchar
+  floor varchar
+  tower varchar
+  phone_number long [note: 'Phone number is not mandatory unless they are buying artwork']
+  country_code int [ref: > artbase.country.code]
+  email varchar [not null, unique]
+  password varchar [not null]
+  
+  Indexes {
+    email
+  }
+}
+
+Table artbase.country {
+  code int [primary key, note: 'Country code, for example, 91 for India']
+  name varchar [not null, unique]
+}
+
+Table artbase.artist {
+  id int [primary key, increment]
+  name varchar [not null]
+  country varchar [not null]
+  state varchar [not null]
+  birth_year year [not null]
+  statement varchar [not null]
+  picture_url varchar [note: 'TODO: Put in a default user image later']
+  styles jsonb
+  social_links jsonb
+  phone_number long [note: 'Phone number is not mandatory unless they are selling artwork']
+  country_code int [ref: > artbase.country.code]
+  email varchar [not null, unique]
+  password varchar [not null]
+  
+  Indexes {
+    email
+  }
+}
+
+Table artbase.artist_style {
+  aid int [ref: > artbase.artist.id, not null]
+  style varchar [not null]
+  
+  Indexes {
+    (aid, style) [pk]
+    style
+  }
+}
+
+Enum artbase.artwork_status {
+  Sale
+  View
+  Sold
+}
+
+Enum artbase.measurement_unit {
+  Inches
+  Centimeters
+  Feet
+}
+
+Enum artbase.currency {
+  INR
+  USD
+}
+
+Table artbase.artwork {
+  id int [primary key, increment]
+  title varchar [not null]
+  style varchar [default: 'Uncategorized']
+  aid int [ref: > artbase.artist.id, not null]
+  year int [not null]
+  height double
+  width double
+  measurement_unit artbase.measurement_unit
+  price double
+  currency artbase.currency
+  picture_url varchar [not null]
+  status artbase.artwork_status [not null]
+  
+  Indexes {
+    (title, aid)
+  }
+}
+
+Table artbase.transaction {
+  id int [primary key, increment]
+  artwork_id int [ref: > artbase.artwork.id, not null]
+  customer_id int [ref: > artbase.customer.id, not null]
+  artist_id int [ref: > artbase.artist.id, not null]
+  purchase_date datetime [not null]
+  
+  Indexes {
+    customer_id
+    artist_id
+  }
+}
