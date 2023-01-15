@@ -14,7 +14,8 @@ CREATE TYPE "artbase"."measurement_unit" AS ENUM (
 
 CREATE TYPE "artbase"."currency" AS ENUM (
   'INR',
-  'USD'
+  'USD',
+  'EUR'
 );
 
 CREATE TABLE "artbase"."customer" (
@@ -35,8 +36,8 @@ CREATE TABLE "artbase"."customer" (
 );
 
 CREATE TABLE "artbase"."country" (
-  "code" int PRIMARY KEY,
-  "name" varchar UNIQUE NOT NULL
+  "country_code" int PRIMARY KEY,
+  "country" varchar UNIQUE NOT NULL
 );
 
 CREATE TABLE "artbase"."artist" (
@@ -98,19 +99,15 @@ CREATE INDEX ON "artbase"."transaction" ("artist_id");
 
 COMMENT ON COLUMN "artbase"."customer"."home_address" IS 'House number, street name, etc.';
 
-COMMENT ON COLUMN "artbase"."customer"."phone_number" IS 'Phone number is not mandatory unless they are buying artwork';
-
-COMMENT ON COLUMN "artbase"."country"."code" IS 'Country code, for example, 91 for India';
+COMMENT ON COLUMN "artbase"."country"."country_code" IS 'Country code, for example, 91 for India';
 
 COMMENT ON COLUMN "artbase"."artist"."picture_url" IS 'TODO: Put in a default user image later';
 
-COMMENT ON COLUMN "artbase"."artist"."phone_number" IS 'Phone number is not mandatory unless they are selling artwork';
-
 COMMENT ON COLUMN "artbase"."transaction"."purchase_date" IS 'Trigger will insert now() in this field';
 
-ALTER TABLE "artbase"."customer" ADD FOREIGN KEY ("country_code") REFERENCES "artbase"."country" ("code");
+ALTER TABLE "artbase"."customer" ADD FOREIGN KEY ("country_code") REFERENCES "artbase"."country" ("country_code");
 
-ALTER TABLE "artbase"."artist" ADD FOREIGN KEY ("country_code") REFERENCES "artbase"."country" ("code");
+ALTER TABLE "artbase"."artist" ADD FOREIGN KEY ("country_code") REFERENCES "artbase"."country" ("country_code");
 
 ALTER TABLE "artbase"."artist_style" ADD FOREIGN KEY ("aid") REFERENCES "artbase"."artist" ("id");
 

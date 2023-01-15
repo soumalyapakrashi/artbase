@@ -12,8 +12,8 @@ Table artbase.customer {
   flat_number varchar
   floor varchar
   tower varchar
-  phone_number long [note: 'Phone number is not mandatory unless they are buying artwork']
-  country_code int [ref: > artbase.country.code]
+  phone_number long
+  country_code int [ref: > artbase.country.country_code]
   email varchar [not null, unique]
   password varchar [not null]
   
@@ -23,8 +23,8 @@ Table artbase.customer {
 }
 
 Table artbase.country {
-  code int [primary key, note: 'Country code, for example, 91 for India']
-  name varchar [not null, unique]
+  country_code int [primary key, note: 'Country code, for example, 91 for India']
+  country varchar [not null, unique]
 }
 
 Table artbase.artist {
@@ -37,8 +37,8 @@ Table artbase.artist {
   picture_url varchar [note: 'TODO: Put in a default user image later']
   styles jsonb
   social_links jsonb
-  phone_number long [note: 'Phone number is not mandatory unless they are selling artwork']
-  country_code int [ref: > artbase.country.code]
+  phone_number long
+  country_code int [ref: > artbase.country.country_code]
   email varchar [not null, unique]
   password varchar [not null]
   
@@ -72,6 +72,7 @@ Enum artbase.measurement_unit {
 Enum artbase.currency {
   INR
   USD
+  EUR
 }
 
 Table artbase.artwork {
