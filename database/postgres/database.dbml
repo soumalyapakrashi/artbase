@@ -98,7 +98,7 @@ Table artbase.transaction {
   artwork_id int [ref: > artbase.artwork.id, not null]
   customer_id int [ref: > artbase.customer.id, not null]
   artist_id int [ref: > artbase.artist.id, not null]
-  purchase_date datetime [not null]
+  purchase_date timestamp [note: 'Trigger will insert now() in this field']
   
   Indexes {
     customer_id

@@ -81,7 +81,7 @@ CREATE TABLE "artbase"."transaction" (
   "artwork_id" int NOT NULL,
   "customer_id" int NOT NULL,
   "artist_id" int NOT NULL,
-  "purchase_date" datetime NOT NULL
+  "purchase_date" timestamp
 );
 
 CREATE INDEX ON "artbase"."customer" ("email");
@@ -105,6 +105,8 @@ COMMENT ON COLUMN "artbase"."country"."code" IS 'Country code, for example, 91 f
 COMMENT ON COLUMN "artbase"."artist"."picture_url" IS 'TODO: Put in a default user image later';
 
 COMMENT ON COLUMN "artbase"."artist"."phone_number" IS 'Phone number is not mandatory unless they are selling artwork';
+
+COMMENT ON COLUMN "artbase"."transaction"."purchase_date" IS 'Trigger will insert now() in this field';
 
 ALTER TABLE "artbase"."customer" ADD FOREIGN KEY ("country_code") REFERENCES "artbase"."country" ("code");
 

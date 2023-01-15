@@ -1,2 +1,4 @@
 # This folder contains stuffs that is used only for development purposes and does not need to be version controlled
 development_files/
+
+**.env
